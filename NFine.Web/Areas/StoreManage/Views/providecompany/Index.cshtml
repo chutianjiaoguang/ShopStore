@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Index.cshtml";
+}
+<script>
+    $(function () {
+        gridList();
+    })
+    function gridList() {
+        var $gridList = $("#gridList");
+        $gridList.dataGrid({
+            url: "/StoreManage/providecompany/GetGridJson",
+            height: $(window).height() - 128,
+            colModel: [
+                { label: '主键', name: 'companyid', hidden: true },
+                { label: '供货商名称', name: 'companyname', width: 150, align: 'left' },
+                { label: '供货商编码', name: 'code', width: 120, align: 'left' },
+                { label: '电话(座机)', name: 'phone', width: 120, align: 'left' },
+                { label: '网站', name: 'website', width: 200, align: 'left' },
+                { label: '供货商编码', name: 'code', width: 100, align: 'left' },
+                { label: '联系人', name: 'contactman', width: 120, align: 'left' },
+                { label: '联系电话', name: 'contactphone', width: 120, align: 'left' },
+                { label: 'QQ', name: 'qq', width: 120, align: 'left' },
+                { label: '微信号', name: 'mc', width: 120, align: 'left' },
+                { label: '主营业务', name: 'industry', width: 250, align: 'left' },
+                { label: '备注', name: 'remark', width: 200, align: 'left' }
+            ]
+        });
+        $("#btn_search").click(function () {
+            $gridList.jqGrid('setGridParam', {
+                postData: { keyword: $("#txt_keyword").val() },
+            }).trigger('reloadGrid');
+        });
+    }
+    function btn_add() {
+        $.modalOpen({
+            id: "Form",
+            title: "新增供货商",
+            url: "/StoreManage/providecompany/Form",
+            width: "700px",
+            height: "550px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_edit() {
+        var keyValue = $("#gridList").jqGridRowValue().companyid;
+        $.modalOpen({
+            id: "Form",
+            title: "修改供货商",
+            url: "/StoreManage/providecompany/Form?keyValue=" + keyValue,
+            width: "700px",
+            height: "550px",
+            callBack: function (iframeId) {
+                top.frames[iframeId].submitForm();
+            }
+        });
+    }
+    function btn_delete() {
+        $.deleteForm({
+            url: "/StoreManage/providecompany/DeleteForm",
+            param: { keyValue: $("#gridList").jqGridRowValue().companyid },
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+
+<div class="topPanel">
+    <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <div class="input-group">
+                        <input id="txt_keyword" type="text" class="form-control" placeholder="请输入要查询关键字" style="width: 200px;">
+                        <span class="input-group-btn">
+                            <button id="btn_search" type="button" class="btn  btn-primary"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="toolbar">
+        <div class="btn-group">
+            <a class="btn btn-primary" onclick="$.reload()"><span class="glyphicon glyphicon-refresh"></span></a>
+        </div>
+        <div class="btn-group">
+            <a id="NF-add"  class="btn btn-primary" onclick="btn_add()"><i class="fa fa-plus"></i>新建供货商</a>
+        </div>
+        <div class="operate">
+            <ul class="nav nav-pills">
+                <li class="first">已选中<span>1</span>项</li>
+                <li><a id="NF-edit"  onclick="btn_edit()"><i class="fa fa-pencil-square-o"></i>修改供货商</a></li>
+                <li><a id="NF-delete"  onclick="btn_delete()"><i class="fa fa-trash-o"></i>删除供货商</a></li>
+            </ul>
+            <a href="javascript:;" class="close"></a>
+        </div>
+        <script>$('.toolbar').authorizeButton()</script>
+    </div>
+</div>
+
+<div class="gridPanel">
+    <table id="gridList"></table>
+    <div id="gridPager"></div>
+</div>

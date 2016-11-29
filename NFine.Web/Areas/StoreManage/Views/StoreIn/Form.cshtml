@@ -1,0 +1,336 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Form.cshtml";
+}
+<script src="~/Content/js/select1/jquery.select.js"></script>
+<link href="~/Content/js/jquery-autocomplete3.2.2/jquery.autocomplete.css" rel="stylesheet" />
+<script src="~/Content/js/jquery-autocomplete3.2.2/jquery.autocomplete.js"></script>
+<script src="~/Content/js/jbox-v2.3/jBox/jquery.jBox-2.3.min.js"></script>
+<script src="~/CommonUI/CommonUI.js"></script>
+<style type="text/css">
+table.altrowstable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #a9c6c9;
+	border-collapse: collapse;
+    width:100%;
+}
+table.altrowstable th {
+	border-width: 1px;
+	padding:8px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+table.altrowstable td {
+	border-width: 0.5px;
+	padding: 1px;
+	border-style: solid;
+	border-color: #a9c6c9;
+}
+.oddrowcolor{
+	background-color:#d4e3e5;
+}
+.evenrowcolor{
+	background-color:#c3dde0;
+}
+.ge_input{border:0px solid #ccc;padding:0px;width:100%;height:100%;}
+</style>
+
+<script>
+    var keyValue = $.request("keyValue");
+    $(function () {
+        initControl();
+        if (!!keyValue) {
+            $.ajax({
+                url: "/StoreManage/StoreIn/GetFormJson",
+                data: { keyValue: keyValue },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    $("#form1").formSerialize(data);
+                }
+            });
+        }
+    });
+    //初始化仓库
+    function Store() {
+        $("#storecode").autocomplete({
+            url: '/StoreManage/StoreIn/GetStoreSelectJson',
+            showResult: function (value, data) {
+                var row = JSON.parse(value);
+                return '<span>' + row.storecode + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + row.storename + '</span>';
+
+            },
+            onItemSelect: function (item) {
+
+            },
+            maxItemsToShow: 5,
+            selectedCallback: function (item) {
+                $("#storecode").val(item.storename);
+            }
+        });
+    }
+    //初始化产品
+    function Productlist(i)
+    {
+        $("#" + i + "ProductName").autocomplete({
+            url: '/StoreManage/Product/GetProductSelectJson',
+            showResult: function (value, data) {
+                var row = JSON.parse(value);
+                return '<span>' + row.ProductCode + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + row.ProductName + '</span>';
+
+            },
+            onItemSelect: function (item) {
+
+            },
+            maxItemsToShow: 5,
+            selectedCallback: function (item) {
+                $("#" + i + "ProductName").val(item.ProductName);
+                $("#" + i + " td:eq(2)").html(item.ProductCode);
+                $("#" + i + " td:eq(3)").html(item.Unit);
+                $("#" + i + "innum").val(1);
+                $("#" + i + "price").val(item.LowestSalePrice);
+                $("#" + i + "smallsumprice").val(item.LowestSalePrice);
+                $("#" + i + "productid").val(item.productid);
+            }
+        });
+    }
+    //初始化供货商
+    function Company() {
+        $("#companyname").autocomplete({
+            url: '/StoreManage/StoreIn/GetCompanySelectJson',
+            showResult: function (value, data) {
+                var row = JSON.parse(value);
+                return '<span>' + row.code + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + row.companyname + '</span>';
+
+            },
+            onItemSelect: function (item) {
+
+            },
+            maxItemsToShow: 5,
+            selectedCallback: function (item) {
+                $("#companyname").val(item.companyname);
+            }
+        });
+    }
+    function showlist(i)
+    {
+        $("#"+i+"storecode").autocomplete({
+            url: '/StoreManage/StoreIn/GetStoreSelectJson',
+            showResult: function (value, data) {
+                var row = JSON.parse(value);
+                return '<span>' + row.storecode + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + row.storename + '</span>';
+
+            },
+            onItemSelect: function (item) {
+
+            },
+            maxItemsToShow: 5,
+            selectedCallback: function (item) {
+                $("#" + i + "storecode").val(item.storename);
+                
+            }
+        });
+    }
+    //增加行
+    function AddRow()
+    {
+        var guid = guids();
+        var html2 = "";
+        html2 += "<tr   style=\"height:35px\" id='" + guid + "'>";
+        html2 += "<td>";
+        html2 += "<a class=\"fa fa-plus\" href=\"javascript:void(0)\" onclick=\"AddRow()\" title=\"添加\"></a>&nbsp;&nbsp;";
+        html2 += "<a class=\"fa fa-trash-o\" href=\"javascript:void(0)\" onclick=\"RemoveRow('" + guid + "')\" title=\"删除\"></a>";
+        html2 += "</td>";
+        html2 += "<td> <input id='" + guid + "ProductName' name='" + guid + "ProductName' type=\"text\" class=\"ge_input\"  onclick=\"Productlist('" + guid + "')\" placeholder=\"请输入产品名称\" /></td>";
+        html2 += "<td></td>";
+        html2 += "<td></td>";
+        html2 += "<td><input id='" + guid + "innum' name='" + guid + "innum' class=\"ge_input\" type=\"text\" onchange=\"textchange('" + guid + "')\"  /></td>";
+        html2 += "<td><input id='" + guid + "price' name='" + guid + "price' class=\"ge_input\" type=\"text\" onchange=\"textchange('" + guid + "')\"  /></td>";
+        html2 += "<td><input id='" + guid + "smallsumprice' name='" + guid + "smallsumprice' class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
+        html2 += "<td><input id='" + guid + "productremark' name='" + guid + "productremark' class=\"ge_input\" type=\"text\"   /></td>";
+        html2 += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\" class=\"ge_input\" type=\"text\"   /></td>";
+        html2 += "</tr>";
+        $("#gridList tbody").append(html2);
+    }
+    //移除行
+    function RemoveRow(guid)
+    {
+        $('#' + guid).remove();
+        var s = $('#' + guid + 'productid').val();
+        if (s > 0)
+        {
+            $.deleteForm({
+                url: "/StoreManage/Store/DeleteForm",
+                param: { keyValue: s},
+                success: function () {
+                    //$.currentWindow().$("#gridList").trigger("reloadGrid");
+                }
+            })
+        }
+    }
+    //数量金额变化
+    function textchange(i)
+    {
+        var inum=$("#" + i + "innum").val();
+        var price = $("#" + i + "price").val();
+        var sumprice = inum * price;
+        $("#" + i + "smallsumprice").val(sumprice);
+    }
+    //取表格数据
+    function getdatatablelist() {
+        var args = {};
+        $("#gridList tr:gt(0)").each(function (i) {
+            var data = new Object();
+            $(this).find("input[name]").each(function () {
+                var name = $(this).attr("name");
+                if (name == "ProductName" && $(this).val().toString().replace(' ','')=='') {
+                    return false;
+                }
+                data[name] = $(this).val();
+            });
+            if (data.toString().replace(' ', '') != '') {
+                args[i] = data;
+            }
+        });
+        return JSON.stringify(args);
+    }
+    function initControl() {
+        Store();
+        Company();
+        //初始化产品列表
+        LoadDetail();
+    }
+    function S4() {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    }
+    function guids() {
+        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    }
+    function LoadDetail() {
+        $.ajax({
+            url: "/StoreManage/StoreIn/GetProductGridJson",
+            data: undefined,
+            type: "post",
+            dataType: "json",
+            success: function (result) {
+                if (result.List != undefined && result.List.Count>0) {
+                    var html = "";
+                    var json = JSON.parse(result.List);
+                    $(json.Data).each(function (i, item) {
+                        html += "<tr class=\"formValue\" id='" + item.stproductid + "'>";
+                        html += "<td>";
+                        html += "<a class=\"icon-edit\" href=\"javascript:void(0)\" onclick=\"orderProduct.EditNum('" + item.stproductid + "'," + item.innum + ")\" title=\"编辑\"></a>&nbsp;&nbsp;";
+                        html += "<a class=\"icon-remove\" href=\"javascript:void(0)\" onclick=\"orderProduct.DelDetail('" + item.stproductid + "')\" title=\"删除\"></a>";
+                        html += "</td>";
+                        html += "<td> <input id='" + item.stproductid + "ProductName' name='" + item.stproductid + "ProductName'  value=\"'" + item.ProductName + "'\" type=\"text\"  class=\"ge_input\"  onclick=\"Productlist('" + item.stproductid + "')\" placeholder=\"请输入产品名称\" /></td>";
+                        html += "<td>" + item.ProductCode + "</td>";
+                        html += "<td>" + item.unit + "</td>";
+                        html += "<td><input id='" + item.stproductid + "innum' name='" + item.stproductid + "innum'  value=\"'" + item.innum + "'\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
+                        html += "<td><input id='" + item.stproductid + "price' name='" + item.stproductid + "price' value=\"'" + item.price + "'\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
+                        html += "<td><input id='" + item.stproductid + "smallsumprice' name='" + item.stproductid + "smallsumprice' value=\"'" + item.price * item.innum + "'\" class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
+                        html += "<td><input id='" + item.stproductid + "productremark' name='" + item.stproductid + "productremark' value=\"'" + item.productremark + "'\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html += "</tr>";
+                    });
+                    $("#gridList").children("tbody").html(html);
+                }
+                else {
+                    var html2 = "";
+                    var arr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+                    $.each(arr, function () {
+                        var guid = guids();
+                        html2 += "<tr   style=\"height:35px\" id='" + guid + "'>";
+                        html2 += "<td>";
+                        html2 += "<a class=\"fa fa-plus\" href=\"javascript:void(0)\" onclick=\"AddRow()\" title=\"添加\"></a>&nbsp;&nbsp;";
+                        html2 += "<a class=\"fa fa-trash-o\" href=\"javascript:void(0)\" onclick=\"RemoveRow('"+guid+"')\" title=\"删除\"></a>";
+                        html2 += "</td>";
+                        html2 += "<td> <input id='" + guid + "ProductName'  name=\"ProductName\" type=\"text\" class=\"ge_input\"  onclick=\"Productlist('" + guid + "')\" placeholder=\"请输入产品名称\" /></td>";
+                        html2 += "<td></td>";
+                        html2 += "<td></td>";
+                        html2 += "<td><input id='" + guid + "innum' name=\"innum\" class=\"ge_input\" type=\"text\" onchange=\"textchange('"+guid+"')\"  /></td>";
+                        html2 += "<td><input id='" + guid + "price' name=\"price\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + guid + "')\"  /></td>";
+                        html2 += "<td><input id='" + guid + "smallsumprice' name=\"smallsumprice\" class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
+                        html2 += "<td><input id='" + guid + "productremark' name=\"productremark\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html2 += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html2 += "</tr>";
+                    });
+                    $("#gridList").children("tbody").html(html2);
+                }
+            }
+        });
+    }
+    function submitForm() {
+        if (!$('#form1').formValid()) {
+            return false;
+        }
+        var postData = $("#form1").formSerialize();
+        postData["datatablelist"] = getdatatablelist();
+        $.submitForm({
+            url: "/StoreManage/StoreIn/SubmitForm?keyValue=" + keyValue,
+            param: postData,
+            success: function () {
+                $.currentWindow().$("#gridList").trigger("reloadGrid");
+            }
+        })
+    }
+</script>
+<form id="form1">
+    <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px;">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#">基本信息</a></li>
+        </ul>
+        <div style="padding-top: 20px; margin-right: 30px;">
+            <table class="form">
+                <tr>
+                    <th class="formTitle">仓库名称</th>
+                    <td class="formValue">
+                        <input id="storecode" name="storecode" type="text"  class="form-control required" placeholder="请输入仓库名称" />
+                    </td>
+                    <th class="formTitle">供应商</th>
+                    <td class="formValue">
+                        <input id="companyname" name="companyname" type="text"  class="form-control required" placeholder="请输入供应商名称" />
+                    </td>
+                </tr>
+                <tr>
+                    <th class="formTitle">采购日期</th>
+                    <td class="formValue">
+                        <input id="purchasedate" name="purchasedate" type="text"  onfocus="WdatePicker({lang:'zh-cn'})"  class="form-control  Wdate required " />
+                    </td>
+                    <th class="formTitle">预计到货日期</th>
+                    <td class="formValue">
+                        <input id="wishdate" name="wishdate" type="text"      onfocus="WdatePicker({lang:'zh-cn'})" class="form-control  Wdate required " />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="gridPanel" style="margin-top: 10px">
+
+
+        <table id="gridList" class="altrowstable">
+            <thead>
+                <tr>
+                    <th style="width:50px">操作</th>
+                    <th style="width:300px">产品名称</th>
+                    <th style="width:200px">产品条码</th>
+                    <th style="width:80px">单位</th>
+                    <th style="width:80px">数量</th>
+                    <th style="width:100px">购货单价(元)</th>
+                    <th style="width:100px">购货金额(元)</th>
+                    <th style="width:auto">备注</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+     <div class="operate">
+            <ul class="nav nav-pills">
+                <li><a id="NF-edit"  onclick="submitForm()"><i class="fa fa-pencil-square-o"></i>保存</a></li>
+                <li><a id="NF-delete" href="/StoreManage/StoreIn/Index" ><i class="fa fa-trash-o"></i>返回</a></li>
+            </ul>
+        </div>
+</form>
