@@ -23,7 +23,7 @@ namespace WebService.Model
         private decimal? _price;
         private int? _storeid;
         private string _storename;
-        private int? _userid;
+        private string _userid;
         private string _myname;
         private DateTime? _setdate;
         private string _productremark;
@@ -130,7 +130,7 @@ namespace WebService.Model
         /// 
         /// </summary>
         [DataMember(IsRequired = false)]
-        public int? userid
+        public string userid
         {
             set { _userid = value; }
             get { return _userid; }

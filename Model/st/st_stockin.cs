@@ -19,14 +19,14 @@ namespace WebService.Model
         private string _companyname;
         private DateTime? _purchasedate;
         private DateTime? _wishdate;
-        private int? _checkuserid;
+        private string _checkuserid;
         private string _checkname;
         private DateTime? _checkdate;
         private string _checkstatetext;
         private int? _checkstate;
         private int? _paystate;
         private string _paystatetext;
-        private int? _userid;
+        private string _userid;
         private string _myname;
         private DateTime? _setdate;
         private string _remark;
@@ -110,7 +110,7 @@ namespace WebService.Model
         /// <summary>
         /// 
         /// </summary>
-        public int? checkuserid
+        public string checkuserid
         {
             set { _checkuserid = value; }
             get { return _checkuserid; }
@@ -166,7 +166,7 @@ namespace WebService.Model
         /// <summary>
         /// 
         /// </summary>
-        public int? userid
+        public string userid
         {
             set { _userid = value; }
             get { return _userid; }

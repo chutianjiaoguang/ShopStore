@@ -56,7 +56,7 @@ table.altrowstable td {
     });
     //初始化仓库
     function Store() {
-        $("#storecode").autocomplete({
+        $("#storename").autocomplete({
             url: '/StoreManage/StoreIn/GetStoreSelectJson',
             showResult: function (value, data) {
                 var row = JSON.parse(value);
@@ -68,7 +68,8 @@ table.altrowstable td {
             },
             maxItemsToShow: 5,
             selectedCallback: function (item) {
-                $("#storecode").val(item.storename);
+                $("#storename").val(item.storename);
+                $("#storeid").val(item.storeid);
             }
         });
     }
@@ -112,16 +113,17 @@ table.altrowstable td {
             maxItemsToShow: 5,
             selectedCallback: function (item) {
                 $("#companyname").val(item.companyname);
+                $("#companyid").val(item.companyid);
             }
         });
     }
     function showlist(i)
     {
-        $("#"+i+"storecode").autocomplete({
+        $("#"+i+"storename").autocomplete({
             url: '/StoreManage/StoreIn/GetStoreSelectJson',
             showResult: function (value, data) {
                 var row = JSON.parse(value);
-                return '<span>' + row.storecode + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + row.storename + '</span>';
+                return '<span>' + row.storename + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + row.storename + '</span>';
 
             },
             onItemSelect: function (item) {
@@ -129,7 +131,7 @@ table.altrowstable td {
             },
             maxItemsToShow: 5,
             selectedCallback: function (item) {
-                $("#" + i + "storecode").val(item.storename);
+                $("#" + i + "storename").val(item.storename);
                 
             }
         });
@@ -287,21 +289,23 @@ table.altrowstable td {
                 <tr>
                     <th class="formTitle">仓库名称</th>
                     <td class="formValue">
-                        <input id="storecode" name="storecode" type="text"  class="form-control required" placeholder="请输入仓库名称" />
+                        <input id="storename" name="storename" type="text"  class="form-control required" placeholder="请输入仓库名称" />
+                         <input id="storeid" name="storeid" type="text"   hidden="hidden" />
                     </td>
                     <th class="formTitle">供应商</th>
                     <td class="formValue">
                         <input id="companyname" name="companyname" type="text"  class="form-control required" placeholder="请输入供应商名称" />
+                         <input id="companyid" name="companyid" type="text"   hidden="hidden" />
                     </td>
                 </tr>
                 <tr>
                     <th class="formTitle">采购日期</th>
                     <td class="formValue">
-                        <input id="purchasedate" name="purchasedate" type="text"  onfocus="WdatePicker({lang:'zh-cn'})"  class="form-control  Wdate required " />
+                        <input id="purchasedate" name="purchasedate" type="text"  onfocus="WdatePicker({lang:'zh-cn'})"  class="form-control  Wdate required " placeholder="请输入采购日期" />
                     </td>
                     <th class="formTitle">预计到货日期</th>
                     <td class="formValue">
-                        <input id="wishdate" name="wishdate" type="text"      onfocus="WdatePicker({lang:'zh-cn'})" class="form-control  Wdate required " />
+                        <input id="wishdate" name="wishdate" type="text"      onfocus="WdatePicker({lang:'zh-cn'})" class="form-control  Wdate required " placeholder="请输入到货日期"  />
                     </td>
                 </tr>
             </table>

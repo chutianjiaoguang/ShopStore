@@ -71,6 +71,7 @@ namespace WebService.BLL
                 jsonObject = new JsonObject();
                 jsonObject.AddProperty("code", t.code);
                 jsonObject.AddProperty("companyname", t.companyname);
+                jsonObject.AddProperty("companyid", t.companyid);
                 sb.Append(jsonObject.ToString() + "\n");
             }
             if (sb.Length == 0)

@@ -129,7 +129,7 @@ namespace WebService.BLL
             using (TransactionScope ts = new TransactionScope())
             {
                 int result = -1;
-                storein.singernumber = "";  //通过一定方式来获取入库单编号
+                storein.singernumber ="CG"+System.DateTime.Now.ToString("yyyyMMddHHmmss");  //通过一定方式来获取入库单编号
                 if (list.Count>0)
                 {
                     list.ForEach(a =>
@@ -137,6 +137,8 @@ namespace WebService.BLL
                         a.singernumber = storein.singernumber;
                         a.storeid = storein.storeid;
                         a.storename = storein.storename;
+                        a.userid = storein.userid;
+                        a.myname = storein.myname;
                     });
                     if (string.IsNullOrEmpty(keyvalue))
                       result=dal.Add(storein);
@@ -144,6 +146,7 @@ namespace WebService.BLL
                        result = dal.Update(storein);
                     BLL.st_stockproduct pro=new st_stockproduct();
                     result += pro.AddProductlist(list);
+                    ts.Complete();
                     if (result > 0)
                         return 1;
                 }

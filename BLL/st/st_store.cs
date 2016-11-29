@@ -76,6 +76,7 @@ namespace WebService.BLL
                 jsonObject = new JsonObject();
                 jsonObject.AddProperty("storecode", t.storecode);
                 jsonObject.AddProperty("storename", t.storename);
+                jsonObject.AddProperty("storeid", t.storeid);
                 sb.Append(jsonObject.ToString() + "\n");
             }
             if (sb.Length == 0)

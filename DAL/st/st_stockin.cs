@@ -29,16 +29,8 @@ namespace WebService.DAL
 					new SqlParameter("@companyname", SqlDbType.NVarChar,100),
 					new SqlParameter("@purchasedate", SqlDbType.DateTime),
 					new SqlParameter("@wishdate", SqlDbType.DateTime),
-					new SqlParameter("@checkuserid", SqlDbType.Int,4),
-					new SqlParameter("@checkname", SqlDbType.NVarChar,20),
-					new SqlParameter("@checkdate", SqlDbType.DateTime),
-					new SqlParameter("@checkstatetext", SqlDbType.NVarChar,50),
-					new SqlParameter("@checkstate", SqlDbType.Int,4),
-					new SqlParameter("@paystate", SqlDbType.Int,4),
-					new SqlParameter("@paystatetext", SqlDbType.NVarChar,50),
 					new SqlParameter("@userid", SqlDbType.Int,4),
 					new SqlParameter("@myname", SqlDbType.NVarChar,20),
-					new SqlParameter("@setdate", SqlDbType.DateTime),
 					new SqlParameter("@remark", SqlDbType.NVarChar,100),
 					new SqlParameter("@summoney", SqlDbType.Money,8)
                                         };
@@ -50,18 +42,10 @@ namespace WebService.DAL
             parameters[5].Value = model.companyname;
             parameters[6].Value = model.purchasedate;
             parameters[7].Value = model.wishdate;
-            parameters[8].Value = model.checkuserid;
-            parameters[9].Value = model.checkname;
-            parameters[10].Value = model.checkdate;
-            parameters[11].Value = model.checkstatetext;
-            parameters[12].Value = model.checkstate;
-            parameters[13].Value = model.paystate;
-            parameters[14].Value = model.paystatetext;
-            parameters[15].Value = model.userid;
-            parameters[16].Value = model.myname;
-            parameters[17].Value = model.setdate;
-            parameters[18].Value = model.remark;
-            parameters[19].Value = model.summoney;
+            parameters[8].Value = model.userid;
+            parameters[9].Value = model.myname;
+            parameters[10].Value = model.remark;
+            parameters[11].Value = model.summoney;
 
             DbHelperSQL.RunProcedure("st_stockin_ADD", parameters, out rowsAffected);
             return (int)parameters[0].Value;
@@ -82,16 +66,6 @@ namespace WebService.DAL
 					new SqlParameter("@companyname", SqlDbType.NVarChar,100),
 					new SqlParameter("@purchasedate", SqlDbType.DateTime),
 					new SqlParameter("@wishdate", SqlDbType.DateTime),
-					new SqlParameter("@checkuserid", SqlDbType.Int,4),
-					new SqlParameter("@checkname", SqlDbType.NVarChar,20),
-					new SqlParameter("@checkdate", SqlDbType.DateTime),
-					new SqlParameter("@checkstatetext", SqlDbType.NVarChar,50),
-					new SqlParameter("@checkstate", SqlDbType.Int,4),
-					new SqlParameter("@paystate", SqlDbType.Int,4),
-					new SqlParameter("@paystatetext", SqlDbType.NVarChar,50),
-					new SqlParameter("@userid", SqlDbType.Int,4),
-					new SqlParameter("@myname", SqlDbType.NVarChar,20),
-					new SqlParameter("@setdate", SqlDbType.DateTime),
 					new SqlParameter("@remark", SqlDbType.NVarChar,100),
 					new SqlParameter("@summoney", SqlDbType.Money,8)
                                         };
@@ -103,18 +77,8 @@ namespace WebService.DAL
             parameters[5].Value = model.companyname;
             parameters[6].Value = model.purchasedate;
             parameters[7].Value = model.wishdate;
-            parameters[8].Value = model.checkuserid;
-            parameters[9].Value = model.checkname;
-            parameters[10].Value = model.checkdate;
-            parameters[11].Value = model.checkstatetext;
-            parameters[12].Value = model.checkstate;
-            parameters[13].Value = model.paystate;
-            parameters[14].Value = model.paystatetext;
-            parameters[15].Value = model.userid;
-            parameters[16].Value = model.myname;
-            parameters[17].Value = model.setdate;
-            parameters[18].Value = model.remark;
-            parameters[19].Value = model.summoney;
+            parameters[8].Value = model.remark;
+            parameters[9].Value = model.summoney;
 
             DbHelperSQL.RunProcedure("st_stockin_Update", parameters, out rowsAffected);
             return rowsAffected;
@@ -225,7 +189,7 @@ namespace WebService.DAL
                 }
                 if (row["checkuserid"] != null && row["checkuserid"].ToString() != "")
                 {
-                    model.checkuserid = int.Parse(row["checkuserid"].ToString());
+                    model.checkuserid = row["checkuserid"].ToString();
                 }
                 if (row["checkname"] != null)
                 {
@@ -253,7 +217,7 @@ namespace WebService.DAL
                 }
                 if (row["userid"] != null && row["userid"].ToString() != "")
                 {
-                    model.userid = int.Parse(row["userid"].ToString());
+                    model.userid = row["userid"].ToString();
                 }
                 if (row["myname"] != null)
                 {

@@ -84,7 +84,7 @@ namespace WebService.DAL
                 }
                 if (row["userid"] != null && row["userid"].ToString() != "")
                 {
-                    model.userid = int.Parse(row["userid"].ToString());
+                    model.userid = row["userid"].ToString();
                 }
                 if (row["myname"] != null)
                 {

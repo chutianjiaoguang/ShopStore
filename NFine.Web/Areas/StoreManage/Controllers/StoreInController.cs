@@ -113,6 +113,8 @@ namespace NFine.Web.Areas.StoreManage.Controllers
                 }
             }
             WebService.BLL.st_stockin bll = new WebService.BLL.st_stockin();
+            storein.myname = OperatorProvider.Provider.GetCurrent().UserName;
+            storein.userid = OperatorProvider.Provider.GetCurrent().UserId;
             int   result=bll.StoreInAdd(storein, list, keyValue);
             if (result > 0)
                 resultstr = "操作成功";
