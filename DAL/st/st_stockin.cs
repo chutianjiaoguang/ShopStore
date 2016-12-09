@@ -29,7 +29,7 @@ namespace WebService.DAL
 					new SqlParameter("@companyname", SqlDbType.NVarChar,100),
 					new SqlParameter("@purchasedate", SqlDbType.DateTime),
 					new SqlParameter("@wishdate", SqlDbType.DateTime),
-					new SqlParameter("@userid", SqlDbType.Int,4),
+					new SqlParameter("@userid", SqlDbType.VarChar,50),
 					new SqlParameter("@myname", SqlDbType.NVarChar,20),
 					new SqlParameter("@remark", SqlDbType.NVarChar,100),
 					new SqlParameter("@summoney", SqlDbType.Money,8)

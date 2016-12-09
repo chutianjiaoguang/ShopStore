@@ -31,17 +31,8 @@
         });
     }
     function btn_edit() {
-        var keyValue = $("#gridList").jqGridRowValue().storeid;
-        $.modalOpen({
-            id: "Form",
-            title: "修改",
-            url: "/StoreManage/StoreIn/Form?keyValue=" + keyValue,
-            width: "700px",
-            height: "550px",
-            callBack: function (iframeId) {
-                top.frames[iframeId].submitForm();
-            }
-        });
+        var keyValue = $("#gridList").jqGridRowValue().stockinid;
+        location.href = "/StoreManage/StoreIn/Form?keyValue=" + keyValue
     }
     function btn_delete() {
         $.deleteForm({

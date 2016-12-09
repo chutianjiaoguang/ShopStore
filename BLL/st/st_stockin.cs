@@ -139,6 +139,7 @@ namespace WebService.BLL
                         a.storename = storein.storename;
                         a.userid = storein.userid;
                         a.myname = storein.myname;
+                        a.stocktype = "CG";
                     });
                     if (string.IsNullOrEmpty(keyvalue))
                       result=dal.Add(storein);

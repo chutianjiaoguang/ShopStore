@@ -48,7 +48,7 @@ namespace WebService.BLL
            int result = -1;
            foreach (WebService.Model.st_stockproductEx productex in list)
            {
-               if (productex.productid > 0)
+               if (productex.stproductid > 0)
                    result = dal.Update(productex);
                else
                    result=dal.Add(productex);
