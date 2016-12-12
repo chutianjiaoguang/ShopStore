@@ -127,12 +127,12 @@ namespace WebService.DAL
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
-        public WebService.Model.st_stockin GetModel(int stockinid)
+        public WebService.Model.st_stockin GetModel(string  singernumber)
         {
             SqlParameter[] parameters = {
-					new SqlParameter("@stockinid", SqlDbType.Int,4)
+					new SqlParameter("@singernumber", SqlDbType.NVarChar,32)
 			};
-            parameters[0].Value = stockinid;
+            parameters[0].Value = singernumber;
 
             WebService.Model.st_stockin model = new WebService.Model.st_stockin();
             DataSet ds = DbHelperSQL.RunProcedure("st_stockin_GetModel", parameters, "ds");

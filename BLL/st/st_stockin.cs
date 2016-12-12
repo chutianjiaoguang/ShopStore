@@ -50,10 +50,10 @@ namespace WebService.BLL
         /// <summary>
         /// 得到一个对象实体
         /// </summary>
-        public WebService.Model.st_stockin GetModel(int stockinid)
+        public WebService.Model.st_stockin GetModel(string singernumber)
         {
 
-            return dal.GetModel(stockinid);
+            return dal.GetModel(singernumber);
         }
 
         /// <summary>

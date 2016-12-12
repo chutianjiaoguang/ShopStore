@@ -26,7 +26,7 @@ namespace WebService.DAL
             strSql.Append(" FROM vw_stockproduct ");
             if (strWhere.Trim() != "")
             {
-                strSql.Append(" where " + strWhere);
+                strSql.AppendFormat(" where singernumber='{0}'", strWhere);
             }
             return DbHelperSQL.Query(strSql.ToString());
         }

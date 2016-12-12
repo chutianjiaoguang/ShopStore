@@ -53,7 +53,7 @@ namespace NFine.Web.Areas.StoreManage.Controllers
         {
             if (!string.IsNullOrEmpty(keyValue))
             {
-                var data = bll.GetModel(int.Parse(keyValue));
+                var data = bll.GetModel(keyValue);
                 return Content(data.ToJson());
             }
             else
@@ -69,6 +69,7 @@ namespace NFine.Web.Areas.StoreManage.Controllers
             List<WebService.Model.st_stockproductEx> list = stobll.GetModelList(keyValue);
             JsonObject jsonObject = new JsonObject();
             jsonObject.AddProperty("List", ConvertJson.ListToJson<WebService.Model.st_stockproductEx>(list, "Data"));
+            jsonObject.AddProperty("Count", list.Count);
             return Content(jsonObject.ToString());
         }
         public ActionResult EditProduct()

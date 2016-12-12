@@ -214,29 +214,33 @@ table.altrowstable td {
     function LoadDetail() {
         $.ajax({
             url: "/StoreManage/StoreIn/GetProductGridJson",
-            data: undefined,
+            data: { keyValue: keyValue },
             type: "post",
             dataType: "json",
             success: function (result) {
-                if (result.List != undefined && result.List.Count>0) {
+                if (result.List != undefined) {
                     var html = "";
                     var json = JSON.parse(result.List);
+                    var rowcount = JSON.parse(result.Count)
                     $(json.Data).each(function (i, item) {
-                        html += "<tr class=\"formValue\" id='" + item.stproductid + "'>";
+                        var guid = guids();
+                        html += "<tr class=\"formValue\" style=\"height:35px\" id='" + item.stproductid + "'>";
                         html += "<td>";
-                        html += "<a class=\"icon-edit\" href=\"javascript:void(0)\" onclick=\"orderProduct.EditNum('" + item.stproductid + "'," + item.innum + ")\" title=\"编辑\"></a>&nbsp;&nbsp;";
-                        html += "<a class=\"icon-remove\" href=\"javascript:void(0)\" onclick=\"orderProduct.DelDetail('" + item.stproductid + "')\" title=\"删除\"></a>";
+                        html += "<a class=\"fa fa-plus\" href=\"javascript:void(0)\" onclick=\"AddRow()\" title=\"添加\"></a>&nbsp;&nbsp;";
+                        html += "<a class=\"fa fa-trash-o\" href=\"javascript:void(0)\" onclick=\"RemoveRow('" + item.stproductid + "')\" title=\"删除\"></a>";
                         html += "</td>";
-                        html += "<td> <input id='" + item.stproductid + "ProductName' name='" + item.stproductid + "ProductName'  value=\"'" + item.ProductName + "'\" type=\"text\"  class=\"ge_input\"  onclick=\"Productlist('" + item.stproductid + "')\" placeholder=\"请输入产品名称\" /></td>";
+                        html += "<td> <input id='" + item.stproductid + "ProductName' name='" + item.stproductid + "ProductName'  value=\"" + item.ProductName + "\" type=\"text\"  class=\"ge_input\"  onclick=\"Productlist('" + item.stproductid + "')\" placeholder=\"请输入产品名称\" /></td>";
                         html += "<td>" + item.ProductCode + "</td>";
                         html += "<td>" + item.unit + "</td>";
-                        html += "<td><input id='" + item.stproductid + "innum' name='" + item.stproductid + "innum'  value=\"'" + item.innum + "'\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
-                        html += "<td><input id='" + item.stproductid + "price' name='" + item.stproductid + "price' value=\"'" + item.price + "'\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
-                        html += "<td><input id='" + item.stproductid + "smallsumprice' name='" + item.stproductid + "smallsumprice' value=\"'" + item.price * item.innum + "'\" class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
-                        html += "<td><input id='" + item.stproductid + "productremark' name='" + item.stproductid + "productremark' value=\"'" + item.productremark + "'\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html += "<td><input id='" + item.stproductid + "innum' name='" + item.stproductid + "innum'  value=\"" + item.innum + "\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
+                        html += "<td><input id='" + item.stproductid + "price' name='" + item.stproductid + "price' value=\"" + item.price + "\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
+                        html += "<td><input id='" + item.stproductid + "smallsumprice' name='" + item.stproductid + "smallsumprice' value=\"" + item.price * item.innum + "\" class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
+                        html += "<td><input id='" + item.stproductid + "productremark' name='" + item.stproductid + "productremark' value=\"" + item.productremark + "\" class=\"ge_input\" type=\"text\"   /></td>";
                         html += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\" class=\"ge_input\" type=\"text\"   /></td>";
                         html += "</tr>";
                     });
+                    if (rowcount < 10)
+                    { }
                     $("#gridList").children("tbody").html(html);
                 }
                 else {
