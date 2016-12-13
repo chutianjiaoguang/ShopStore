@@ -129,7 +129,10 @@ namespace WebService.BLL
             using (TransactionScope ts = new TransactionScope())
             {
                 int result = -1;
-                storein.singernumber ="CG"+System.DateTime.Now.ToString("yyyyMMddHHmmss");  //通过一定方式来获取入库单编号
+                if (keyvalue == "")
+                    storein.singernumber = "CG" + System.DateTime.Now.ToString("yyyyMMddHHmmss");  //通过一定方式来获取入库单编号
+                else
+                    storein.singernumber = keyvalue;
                 if (list.Count>0)
                 {
                     list.ForEach(a =>

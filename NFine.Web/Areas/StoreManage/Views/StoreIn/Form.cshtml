@@ -154,6 +154,7 @@ table.altrowstable td {
         html2 += "<td><input id='" + guid + "smallsumprice' name='" + guid + "smallsumprice' class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
         html2 += "<td><input id='" + guid + "productremark' name='" + guid + "productremark' class=\"ge_input\" type=\"text\"   /></td>";
         html2 += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\" class=\"ge_input\" type=\"text\"   /></td>";
+        html2 += "<td hidden=\"hidden\"><input id='" + guid + "stproductid' name=\"stproductid\" name=\"stproductid\" value=\"0\" class=\"ge_input\" type=\"text\"   /></td>";
         html2 += "</tr>";
         $("#gridList tbody").append(html2);
     }
@@ -161,7 +162,7 @@ table.altrowstable td {
     function RemoveRow(guid)
     {
         $('#' + guid).remove();
-        var s = $('#' + guid + 'productid').val();
+        var s = $('#' + guid + 'stproductid').val();
         if (s > 0)
         {
             $.deleteForm({
@@ -229,18 +230,41 @@ table.altrowstable td {
                         html += "<a class=\"fa fa-plus\" href=\"javascript:void(0)\" onclick=\"AddRow()\" title=\"添加\"></a>&nbsp;&nbsp;";
                         html += "<a class=\"fa fa-trash-o\" href=\"javascript:void(0)\" onclick=\"RemoveRow('" + item.stproductid + "')\" title=\"删除\"></a>";
                         html += "</td>";
-                        html += "<td> <input id='" + item.stproductid + "ProductName' name='" + item.stproductid + "ProductName'  value=\"" + item.ProductName + "\" type=\"text\"  class=\"ge_input\"  onclick=\"Productlist('" + item.stproductid + "')\" placeholder=\"请输入产品名称\" /></td>";
+                        html += "<td> <input id='" + item.stproductid + "ProductName' name='ProductName'  value=\"" + item.ProductName + "\" type=\"text\"  class=\"ge_input\"  onclick=\"Productlist('" + item.stproductid + "')\" placeholder=\"请输入产品名称\" /></td>";
                         html += "<td>" + item.ProductCode + "</td>";
                         html += "<td>" + item.unit + "</td>";
-                        html += "<td><input id='" + item.stproductid + "innum' name='" + item.stproductid + "innum'  value=\"" + item.innum + "\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
-                        html += "<td><input id='" + item.stproductid + "price' name='" + item.stproductid + "price' value=\"" + item.price + "\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
-                        html += "<td><input id='" + item.stproductid + "smallsumprice' name='" + item.stproductid + "smallsumprice' value=\"" + item.price * item.innum + "\" class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
-                        html += "<td><input id='" + item.stproductid + "productremark' name='" + item.stproductid + "productremark' value=\"" + item.productremark + "\" class=\"ge_input\" type=\"text\"   /></td>";
-                        html += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html += "<td><input id='" + item.stproductid + "innum' name='innum'  value=\"" + item.innum + "\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
+                        html += "<td><input id='" + item.stproductid + "price' name='price' value=\"" + item.price + "\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + item.stproductid + "')\"  /></td>";
+                        html += "<td><input id='" + item.stproductid + "smallsumprice' name='smallsumprice' value=\"" + item.price * item.innum + "\" class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
+                        html += "<td><input id='" + item.stproductid + "productremark' name='productremark' value=\"" + item.productremark + "\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\"  value=\"" + item.productid + "\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html += "<td hidden=\"hidden\"><input id='" + guid + "stproductid' name=\"stproductid\"  value=\"" + item.stproductid + "\" class=\"ge_input\" type=\"text\"   /></td>";
                         html += "</tr>";
                     });
                     if (rowcount < 10)
-                    { }
+                    {
+                        var arr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+                        $.each(arr, function (i) {
+                            if (rowcount + i >= 10)
+                                return false;
+                            var guid = guids();
+                            html += "<tr   style=\"height:35px\" id='" + guid + "'>";
+                            html += "<td>";
+                            html += "<a class=\"fa fa-plus\" href=\"javascript:void(0)\" onclick=\"AddRow()\" title=\"添加\"></a>&nbsp;&nbsp;";
+                            html += "<a class=\"fa fa-trash-o\" href=\"javascript:void(0)\" onclick=\"RemoveRow('" + guid + "')\" title=\"删除\"></a>";
+                            html += "</td>";
+                            html += "<td> <input id='" + guid + "ProductName'  name=\"ProductName\" type=\"text\" class=\"ge_input\"  onclick=\"Productlist('" + guid + "')\" placeholder=\"请输入产品名称\" /></td>";
+                            html += "<td></td>";
+                            html += "<td></td>";
+                            html += "<td><input id='" + guid + "innum' name=\"innum\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + guid + "')\"  /></td>";
+                            html += "<td><input id='" + guid + "price' name=\"price\" class=\"ge_input\" type=\"text\" onchange=\"textchange('" + guid + "')\"  /></td>";
+                            html += "<td><input id='" + guid + "smallsumprice' name=\"smallsumprice\" class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
+                            html += "<td><input id='" + guid + "productremark' name=\"productremark\" class=\"ge_input\" type=\"text\"   /></td>";
+                            html += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\" class=\"ge_input\" type=\"text\"   /></td>";
+                            html += "<td hidden=\"hidden\"><input id='" + guid + "stproductid' name=\"stproductid\" value=\"0\" class=\"ge_input\" type=\"text\"   /></td>";
+                            html += "</tr>";
+                        });
+                    }
                     $("#gridList").children("tbody").html(html);
                 }
                 else {
@@ -261,6 +285,7 @@ table.altrowstable td {
                         html2 += "<td><input id='" + guid + "smallsumprice' name=\"smallsumprice\" class=\"ge_input\" type=\"text\"  disabled=\"disabled\" /></td>";
                         html2 += "<td><input id='" + guid + "productremark' name=\"productremark\" class=\"ge_input\" type=\"text\"   /></td>";
                         html2 += "<td hidden=\"hidden\"><input id='" + guid + "productid' name=\"productid\" class=\"ge_input\" type=\"text\"   /></td>";
+                        html2 += "<td hidden=\"hidden\"><input id='" + guid + "stproductid' name=\"stproductid\" name=\"stproductid\" value=\"0\" class=\"ge_input\" type=\"text\"   /></td>";
                         html2 += "</tr>";
                     });
                     $("#gridList").children("tbody").html(html2);

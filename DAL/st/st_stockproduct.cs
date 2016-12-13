@@ -171,8 +171,6 @@ namespace WebService.DAL
 					new SqlParameter("@price", SqlDbType.Money,8),
 					new SqlParameter("@storeid", SqlDbType.Int,4),
 					new SqlParameter("@storename", SqlDbType.NVarChar,50),
-					new SqlParameter("@userid", SqlDbType.VarChar,50),
-					new SqlParameter("@myname", SqlDbType.NVarChar,20),
 					new SqlParameter("@productremark", SqlDbType.NVarChar,100)};
             parameters[0].Value = model.stproductid;
             parameters[1].Value = model.stocktype;
@@ -185,9 +183,7 @@ namespace WebService.DAL
             parameters[8].Value = model.price;
             parameters[9].Value = model.storeid;
             parameters[10].Value = model.storename;
-            parameters[11].Value = model.userid;
-            parameters[12].Value = model.myname;
-            parameters[13].Value = model.productremark;
+            parameters[11].Value = model.productremark;
 
             DbHelperSQL.RunProcedure("st_stockproduct_Update", parameters, out rowsAffected);
             return rowsAffected;

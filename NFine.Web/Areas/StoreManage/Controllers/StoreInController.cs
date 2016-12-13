@@ -63,11 +63,13 @@ namespace NFine.Web.Areas.StoreManage.Controllers
         [HandlerAjaxOnly]
         public ActionResult GetProductGridJson(string keyValue)
         {
+            JsonObject jsonObject = new JsonObject();
             if (keyValue == null)
                 keyValue = "";
+            if (keyValue == "")  //新增
+                return Content(jsonObject.ToString());
             WebService.BLL.st_stockproduct stobll = new WebService.BLL.st_stockproduct();
             List<WebService.Model.st_stockproductEx> list = stobll.GetModelList(keyValue);
-            JsonObject jsonObject = new JsonObject();
             jsonObject.AddProperty("List", ConvertJson.ListToJson<WebService.Model.st_stockproductEx>(list, "Data"));
             jsonObject.AddProperty("Count", list.Count);
             return Content(jsonObject.ToString());
