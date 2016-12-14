@@ -27,6 +27,26 @@ namespace WebService.Model
         private string _myname;
         private DateTime? _setdate;
         private string _productremark;
+        private decimal _saleprice;
+        private int _state;
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        public int state
+        {
+            set { _state = value; }
+            get { return _state; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [DataMember(IsRequired = false)]
+        public decimal saleprice
+        {
+            set { _saleprice = value; }
+            get { return _saleprice; }
+        }
         /// <summary>
         /// 
         /// </summary>

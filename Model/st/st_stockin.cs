@@ -18,19 +18,45 @@ namespace WebService.Model
         private int? _companyid;
         private string _companyname;
         private DateTime? _purchasedate;
-        private DateTime? _wishdate;
         private string _checkuserid;
         private string _checkname;
         private DateTime? _checkdate;
         private string _checkstatetext;
         private int? _checkstate;
-        private int? _paystate;
-        private string _paystatetext;
         private string _userid;
         private string _myname;
         private DateTime? _setdate;
         private string _remark;
         private decimal? _summoney;
+        private decimal _writeoff;
+        private decimal _nowriteoff;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal writeoff
+        {
+            set { _writeoff = value; }
+            get { return _writeoff; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public decimal nowriteoff
+        {
+            set { _nowriteoff = value; }
+            get { return _nowriteoff; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int stockinid
+        {
+            set { _stockinid = value; }
+            get { return _stockinid; }
+        }
+
 
         private List<st_stockproduct> _w_changebyproducts;
         /// <summary>
@@ -40,16 +66,6 @@ namespace WebService.Model
         {
             set { _w_changebyproducts = value; }
             get { return _w_changebyproducts; }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public int stockinid
-        {
-            set { _stockinid = value; }
-            get { return _stockinid; }
         }
         /// <summary>
         /// 
@@ -102,14 +118,6 @@ namespace WebService.Model
         /// <summary>
         /// 
         /// </summary>
-        public DateTime? wishdate
-        {
-            set { _wishdate = value; }
-            get { return _wishdate; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
         public string checkuserid
         {
             set { _checkuserid = value; }
@@ -146,22 +154,6 @@ namespace WebService.Model
         {
             set { _checkstate = value; }
             get { return _checkstate; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int? paystate
-        {
-            set { _paystate = value; }
-            get { return _paystate; }
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public string paystatetext
-        {
-            set { _paystatetext = value; }
-            get { return _paystatetext; }
         }
         /// <summary>
         /// 

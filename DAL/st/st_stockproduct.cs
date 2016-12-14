@@ -22,7 +22,7 @@ namespace WebService.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ProductName,ProductCode,stproductid,stocktype,singernumber,SkuId,productid,innum,outnum,unit,price,storeid,storename,userid,myname,setdate,productremark ");
+            strSql.Append("select ProductName,ProductCode,stproductid,stocktype,singernumber,SkuId,productid,innum,outnum,unit,price,storeid,storename,userid,myname,setdate,productremark,saleprice,state ");
             strSql.Append(" FROM vw_stockproduct ");
             if (strWhere.Trim() != "")
             {
@@ -110,6 +110,14 @@ namespace WebService.DAL
                 {
                     model.smallsumprice = decimal.Parse(row["price"].ToString()) * decimal.Parse(model.innum.ToString()) + decimal.Parse(row["price"].ToString()) * decimal.Parse(model.outnum.ToString());
                 }
+                if (row["saleprice"] != null && row["saleprice"].ToString() != "")
+                {
+                    model.saleprice = decimal.Parse(row["saleprice"].ToString());
+                }
+                if (row["state"] != null && row["state"].ToString() != "")
+                {
+                    model.state = int.Parse(row["state"].ToString());
+                }
             }
             return model;
         }
@@ -129,11 +137,14 @@ namespace WebService.DAL
 					new SqlParameter("@outnum", SqlDbType.Float,8),
 					new SqlParameter("@unit", SqlDbType.Char,10),
 					new SqlParameter("@price", SqlDbType.Money,8),
+                    new SqlParameter("@saleprice", SqlDbType.Money,8),
 					new SqlParameter("@storeid", SqlDbType.Int,4),
 					new SqlParameter("@storename", SqlDbType.NVarChar,50),
 					new SqlParameter("@userid", SqlDbType.VarChar,50),
 					new SqlParameter("@myname", SqlDbType.NVarChar,20),
-					new SqlParameter("@productremark", SqlDbType.NVarChar,100)};
+					new SqlParameter("@productremark", SqlDbType.NVarChar,100),
+                    new SqlParameter("@state", SqlDbType.Int,4),
+                                        };
             parameters[0].Direction = ParameterDirection.Output;
             parameters[1].Value = model.stocktype;
             parameters[2].Value = model.singernumber;
@@ -143,12 +154,13 @@ namespace WebService.DAL
             parameters[6].Value = model.outnum;
             parameters[7].Value = model.unit;
             parameters[8].Value = model.price;
-            parameters[9].Value = model.storeid;
-            parameters[10].Value = model.storename;
-            parameters[11].Value = model.userid;
-            parameters[12].Value = model.myname;
-            parameters[13].Value = model.productremark;
-
+            parameters[9].Value = model.saleprice;
+            parameters[10].Value = model.storeid;
+            parameters[11].Value = model.storename;
+            parameters[12].Value = model.userid;
+            parameters[13].Value = model.myname;
+            parameters[14].Value = model.productremark;
+            parameters[15].Value = model.state;
             DbHelperSQL.RunProcedure("st_stockproduct_ADD", parameters, out rowsAffected);
             return (int)parameters[0].Value;
         }
@@ -169,9 +181,11 @@ namespace WebService.DAL
 					new SqlParameter("@outnum", SqlDbType.Float,8),
 					new SqlParameter("@unit", SqlDbType.Char,10),
 					new SqlParameter("@price", SqlDbType.Money,8),
+                    new SqlParameter("@saleprice", SqlDbType.Money,8),
 					new SqlParameter("@storeid", SqlDbType.Int,4),
 					new SqlParameter("@storename", SqlDbType.NVarChar,50),
-					new SqlParameter("@productremark", SqlDbType.NVarChar,100)};
+					new SqlParameter("@productremark", SqlDbType.NVarChar,100),
+                    new SqlParameter("@state", SqlDbType.Int,4)};
             parameters[0].Value = model.stproductid;
             parameters[1].Value = model.stocktype;
             parameters[2].Value = model.singernumber;
@@ -181,9 +195,11 @@ namespace WebService.DAL
             parameters[6].Value = model.outnum;
             parameters[7].Value = model.unit;
             parameters[8].Value = model.price;
-            parameters[9].Value = model.storeid;
-            parameters[10].Value = model.storename;
-            parameters[11].Value = model.productremark;
+            parameters[9].Value = model.saleprice;
+            parameters[10].Value = model.storeid;
+            parameters[11].Value = model.storename;
+            parameters[12].Value = model.productremark;
+            parameters[13].Value = model.state;
 
             DbHelperSQL.RunProcedure("st_stockproduct_Update", parameters, out rowsAffected);
             return rowsAffected;

@@ -28,7 +28,6 @@ namespace WebService.DAL
 					new SqlParameter("@companyid", SqlDbType.Int,4),
 					new SqlParameter("@companyname", SqlDbType.NVarChar,100),
 					new SqlParameter("@purchasedate", SqlDbType.DateTime),
-					new SqlParameter("@wishdate", SqlDbType.DateTime),
 					new SqlParameter("@userid", SqlDbType.VarChar,50),
 					new SqlParameter("@myname", SqlDbType.NVarChar,20),
 					new SqlParameter("@remark", SqlDbType.NVarChar,100),
@@ -41,11 +40,10 @@ namespace WebService.DAL
             parameters[4].Value = model.companyid;
             parameters[5].Value = model.companyname;
             parameters[6].Value = model.purchasedate;
-            parameters[7].Value = model.wishdate;
-            parameters[8].Value = model.userid;
-            parameters[9].Value = model.myname;
-            parameters[10].Value = model.remark;
-            parameters[11].Value = model.summoney;
+            parameters[7].Value = model.userid;
+            parameters[8].Value = model.myname;
+            parameters[9].Value = model.remark;
+            parameters[10].Value = model.summoney;
 
             DbHelperSQL.RunProcedure("st_stockin_ADD", parameters, out rowsAffected);
             return (int)parameters[0].Value;
@@ -65,7 +63,6 @@ namespace WebService.DAL
 					new SqlParameter("@companyid", SqlDbType.Int,4),
 					new SqlParameter("@companyname", SqlDbType.NVarChar,100),
 					new SqlParameter("@purchasedate", SqlDbType.DateTime),
-					new SqlParameter("@wishdate", SqlDbType.DateTime),
 					new SqlParameter("@remark", SqlDbType.NVarChar,100),
 					new SqlParameter("@summoney", SqlDbType.Money,8)
                                         };
@@ -76,9 +73,8 @@ namespace WebService.DAL
             parameters[4].Value = model.companyid;
             parameters[5].Value = model.companyname;
             parameters[6].Value = model.purchasedate;
-            parameters[7].Value = model.wishdate;
-            parameters[8].Value = model.remark;
-            parameters[9].Value = model.summoney;
+            parameters[7].Value = model.remark;
+            parameters[8].Value = model.summoney;
 
             DbHelperSQL.RunProcedure("st_stockin_Update", parameters, out rowsAffected);
             return rowsAffected;
@@ -183,10 +179,6 @@ namespace WebService.DAL
                 {
                     model.purchasedate = DateTime.Parse(row["purchasedate"].ToString());
                 }
-                if (row["wishdate"] != null && row["wishdate"].ToString() != "")
-                {
-                    model.wishdate = DateTime.Parse(row["wishdate"].ToString());
-                }
                 if (row["checkuserid"] != null && row["checkuserid"].ToString() != "")
                 {
                     model.checkuserid = row["checkuserid"].ToString();
@@ -206,14 +198,6 @@ namespace WebService.DAL
                 if (row["checkstate"] != null && row["checkstate"].ToString() != "")
                 {
                     model.checkstate = int.Parse(row["checkstate"].ToString());
-                }
-                if (row["paystate"] != null && row["paystate"].ToString() != "")
-                {
-                    model.paystate = int.Parse(row["paystate"].ToString());
-                }
-                if (row["paystatetext"] != null)
-                {
-                    model.paystatetext = row["paystatetext"].ToString();
                 }
                 if (row["userid"] != null && row["userid"].ToString() != "")
                 {
@@ -235,6 +219,14 @@ namespace WebService.DAL
                 {
                     model.summoney = decimal.Parse(row["summoney"].ToString());
                 }
+                if (row["nowriteoff"] != null && row["nowriteoff"].ToString() != "")
+                {
+                    model.nowriteoff = decimal.Parse(row["nowriteoff"].ToString());
+                }
+                if (row["writeoff"] != null && row["writeoff"].ToString() != "")
+                {
+                    model.writeoff = decimal.Parse(row["writeoff"].ToString());
+                }
             }
             return model;
         }
@@ -245,7 +237,7 @@ namespace WebService.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select stockinid,singernumber,storeid,storename,companyid,companyname,purchasedate,wishdate,checkuserid,checkname,checkdate,checkstatetext,checkstate,paystate,paystatetext,userid,myname,setdate,remark,summoney ");
+            strSql.Append("select stockinid,singernumber,storeid,storename,companyid,companyname,purchasedate,checkuserid,checkname,checkdate,checkstatetext,checkstate,userid,myname,setdate,remark,summoney,writeoff,nowriteoff ");
             strSql.Append(" FROM st_stockin ");
             if (strWhere.Trim() != "")
             {
@@ -265,7 +257,7 @@ namespace WebService.DAL
             {
                 strSql.Append(" top " + Top.ToString());
             }
-            strSql.Append(" stockinid,singernumber,storeid,storename,companyid,companyname,purchasedate,wishdate,checkuserid,checkname,checkdate,checkstatetext,checkstate,paystate,paystatetext,userid,myname,setdate,remark,summoney ");
+            strSql.Append(" stockinid,singernumber,storeid,storename,companyid,companyname,purchasedate,checkuserid,checkname,checkdate,checkstatetext,checkstate,userid,myname,setdate,remark,summoney ");
             strSql.Append(" FROM st_stockin ");
             if (strWhere.Trim() != "")
             {
